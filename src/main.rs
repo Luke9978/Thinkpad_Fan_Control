@@ -1,28 +1,21 @@
 use std::fs::File;
 use std::io::{Write, BufReader, BufRead, Error};
-use std::time::Duration;
-use std::thread;
+
 
 fn main() -> Result<(), Error>{
+    // TODO Will find a way to automaticly find these later...
     let fan1_input   = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon2/fan1_input";
     let pwm1         = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon2/pwm1";
     let pwm1_enabled = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon2/pwm1_enable";
 
+    // TODO Figure out what to do when the result is actualy fails
     read(fan1_input)?;
     read(pwm1)?;
     read(pwm1_enabled)?;
 
-    for i in 0..8 {
-        write(pwm1_enabled,"1")?;
 
-        read(fan1_input)?;
-        read(pwm1)?;
-        read(pwm1_enabled)?;
 
-        thread::sleep(Duration::from_millis(1000))
-    }
 
-    write(pwm1_enabled,"2")?;
 
     Ok(())
 }
